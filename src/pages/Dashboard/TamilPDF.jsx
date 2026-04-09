@@ -503,36 +503,6 @@ const TamilPDF = ({
           <Text style={styles.words}>
             Amount in Words: {numberToWords(total)} Rupees
           </Text>
-<View style={styles.bankBox}>
-
-  <Text style={styles.bankTitle}>Bank Details</Text>
-
-  <View style={styles.bankRow}>
-    <Text style={styles.bankLabel}>Bank Name :</Text>
-    <Text style={styles.bankValue}>{bankName}</Text>
-  </View>
-
-  <View style={styles.bankRow}>
-    <Text style={styles.bankLabel}>Account Name :</Text>
-    <Text style={styles.bankValue}>{accountName}</Text>
-  </View>
-
-  <View style={styles.bankRow}>
-    <Text style={styles.bankLabel}>Account Number</Text>
-    <Text style={styles.bankValue}>{accountNumber}</Text>
-  </View>
-
-  <View style={styles.bankRow}>
-    <Text style={styles.bankLabel}>IFSC Code</Text>
-    <Text style={styles.bankValue}>{ifscCode}</Text>
-  </View>
-
-  <View style={styles.bankRow}>
-    <Text style={styles.bankLabel}>Branch</Text>
-    <Text style={styles.bankValue}>{upiId}</Text>
-  </View>
-
-</View>
           {/* TERMS */}
          <View style={styles.termsBox}>
   <Text style={{ fontFamily: "EnglishBold", marginBottom: 4 }}>
@@ -544,11 +514,7 @@ const TamilPDF = ({
   </Text>
 
   <Text style={styles.termsText}>
-    2. Use firecrackers at your own risk by following safety instructions.
-  </Text>
-
-  <Text style={styles.termsText}>
-    3. Full payment must be made at the time of purchase.
+    2. Full payment must be made at the time of purchase.
   </Text>
 
   <Text style={styles.signature}>
