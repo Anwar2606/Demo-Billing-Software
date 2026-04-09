@@ -8,22 +8,20 @@ const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [lastInvoiceNumber, setLastInvoiceNumber] = useState(null);
 
+  const [isBillOpen, setIsBillOpen] = useState(false);
+  const [isProjectOpen, setIsProjectOpen] = useState(false);
+
   useEffect(() => {
     const fetchLastInvoice = async () => {
-      try {
-        const q = query(
-          collection(db, "invoicebilling"),
-          orderBy("createdAt", "desc"),
-          limit(1)
-        );
+      const q = query(
+        collection(db, "invoicebilling"),
+        orderBy("createdAt", "desc"),
+        limit(1)
+      );
 
-        const snap = await getDocs(q);
-
-        if (!snap.empty) {
-          setLastInvoiceNumber(snap.docs[0].data().invoiceNumber);
-        }
-      } catch (error) {
-        console.error("Error fetching last invoice:", error);
+      const snap = await getDocs(q);
+      if (!snap.empty) {
+        setLastInvoiceNumber(snap.docs[0].data().invoiceNumber);
       }
     };
 
@@ -32,7 +30,7 @@ const MobileNavbar = () => {
 
   return (
     <>
-      {/* 📱 Mobile Top Bar */}
+      {/* Top Bar */}
       <div className="mobile-navbar">
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -42,7 +40,7 @@ const MobileNavbar = () => {
         </button>
       </div>
 
-      {/* 📲 Dropdown Menu */}
+      {/* Menu */}
       {isOpen && (
         <div className="mobile-menu">
           <ul>
@@ -58,34 +56,72 @@ const MobileNavbar = () => {
               </Link>
             </li>
 
-            <li>
-              <Link to="/invoicecopy" onClick={() => setIsOpen(false)}>
-                All Bill
-              </Link>
+            {/* 🔥 BILL MENU */}
+            <li onClick={() => setIsBillOpen(!isBillOpen)}>
+              Bill {isBillOpen ? "▲" : "▼"}
             </li>
 
-            <li>
-              <Link to="/invoiceeditbill" onClick={() => setIsOpen(false)}>
-                Edit Bill
-              </Link>
+            {isBillOpen && (
+              <ul className="submenu">
+                <li>
+                  <Link to="/invoicecopy" onClick={() => setIsOpen(false)}>
+                    All Bill
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/invoiceeditbill" onClick={() => setIsOpen(false)}>
+                    Edit Bill
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/invoicebill" onClick={() => setIsOpen(false)}>
+                    Generate Bill
+                  </Link>
+                </li>
+              </ul>
+            )}
+
+            {/* 🔥 PROJECT MENU */}
+            <li onClick={() => setIsProjectOpen(!isProjectOpen)}>
+              Project {isProjectOpen ? "▲" : "▼"}
             </li>
 
-            <li>
-              <Link to="/invoicebill" onClick={() => setIsOpen(false)}>
-                Generate Bill
-              </Link>
-            </li>
+            {isProjectOpen && (
+              <ul className="submenu">
+                <li>
+                  <Link to="/addemployee" onClick={() => setIsOpen(false)}>
+                    Add Employee
+                  </Link>
+                </li>
 
-            {/* ⭐ LAST BILL NUMBER */}
+                <li>
+                  <Link to="/salarymanagement" onClick={() => setIsOpen(false)}>
+                    Salary Calculator
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/projectreport" onClick={() => setIsOpen(false)}>
+                    Project Report
+                  </Link>
+                </li>
+              </ul>
+            )}
+
+            {/* LAST BILL */}
             <li>
               <Link to="/invoice" onClick={() => setIsOpen(false)}>
-                Last Bill Number:{" "}
-                <span style={{ fontWeight: "600" }}>
-                  {lastInvoiceNumber ?? "Loading..."}
-                </span>
+                Last Bill: {lastInvoiceNumber ?? "Loading..."}
               </Link>
             </li>
 
+            <li>
+              <Link to="/" onClick={() => setIsOpen(false)}>
+                Logout
+              </Link>
+            </li>
           </ul>
         </div>
       )}

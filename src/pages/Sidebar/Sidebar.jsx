@@ -26,6 +26,7 @@ const Sidebar = ({ isOpen,isOpen2, toggleSidebar }) => {
    const [isBillsOpen, setIsBillsOpen] = useState(false);
    const [isBillsOpen2, setIsBillsOpen2] = useState(false);
    const [lastInvoiceNumber, setLastInvoiceNumber] = useState(null);
+   const [isProjectOpen, setIsProjectOpen] = useState(false);
   useEffect(() => {
    const q = query(
      collection(db, "invoicebilling"),
@@ -43,12 +44,13 @@ const Sidebar = ({ isOpen,isOpen2, toggleSidebar }) => {
    return () => unsubscribe(); // cleanup listener
  }, []);
  
-  const toggleBillsSubMenu = () => {
-    setIsBillsOpen(!isBillsOpen);
-  };
-const toggleBillsSubMenu2 = () => {
-    setIsBillsOpen2(!isBillsOpen);
-  };
+const toggleBillsMenu = () => {
+  setIsBillsOpen(!isBillsOpen);
+};
+
+const toggleProjectMenu = () => {
+  setIsProjectOpen(!isProjectOpen);
+};
   return (
     <div className={`sidebar ${isOpen ? "open" : "collapsed"}`}>
       
@@ -62,19 +64,81 @@ const toggleBillsSubMenu2 = () => {
         </li>
         <li><Link to="/dashboard"><FaHome /> {isOpen && <span>Home</span>}</Link></li>
         <li><Link to="/products"><AiFillProduct /> {isOpen && <span>Products</span>}</Link></li>
-        <li><Link to="/invoicecopy"><HiOutlineDocumentText />{isOpen && <span>All Bill</span>} </Link></li>
-        <li><Link to="/invoiceeditbill"><HiOutlineDocumentText />{isOpen && <span>Edit Bill</span>} </Link></li>
-        <li><Link to="/invoicebill"><LiaMoneyBillWaveAltSolid />{isOpen && <span>Generate Bill </span>} </Link></li>
+        {/* 🔥 BILL MENU */}
+<li onClick={toggleBillsMenu} style={{ cursor: "pointer" }}>
+ <div style={{ display: "flex", justifyContent: "space-between", width: "100%", color:"black" }}>
+  <span><HiOutlineDocumentText /> Bill</span>
+  {isOpen && (isBillsOpen ? <FaChevronUp /> : <FaChevronDown />)}
+</div>
+</li>
+
+{isBillsOpen && isOpen && (
+ <ul style={{
+  listStyle: "none",
+  paddingLeft: "15px",
+  marginTop: "5px",
+  borderLeft: "2px solid #4CAF50"
+}}>
+    
+    <li>
+      <Link to="/invoicecopy">
+        <FaEye /> All Bill
+      </Link>
+    </li>
+
+    <li>
+      <Link to="/invoiceeditbill">
+        <FaEdit /> Edit Bill
+      </Link>
+    </li>
+
+    <li>
+      <Link to="/invoicebill">
+        <LiaMoneyBillWaveAltSolid /> Generate Bill
+      </Link>
+    </li>
+
+  </ul>
+)}
+{/* 🔥 PROJECT MENU */}
+<li onClick={toggleProjectMenu} style={{ cursor: "pointer" }}>
+ <div style={{ display: "flex", justifyContent: "space-between", width: "100%",color:"black" }}>
+  <span><GiPayMoney /> Project</span>
+  {isOpen && (isProjectOpen ? <FaChevronUp /> : <FaChevronDown />)}
+</div>
+</li>
+
+{isProjectOpen && isOpen && (
+  <ul style={{
+  listStyle: "none",
+  paddingLeft: "15px",
+  marginTop: "5px",
+  borderLeft: "2px solid #4CAF50"
+}}>
+
+    <li>
+      <Link to="/addemployee">
+        <IoIosPerson /> Add Employee
+      </Link>
+    </li>
+
+    <li>
+      <Link to="/salarymanagement">
+        <LiaMoneyBillWaveAltSolid /> Salary Calculator
+      </Link>
+    </li>
+
+    <li>
+      <Link to="/projectreport">
+        <FaFileInvoice /> Project Report
+      </Link>
+    </li>
+
+  </ul>
+)}
          {/* <li><Link to="/showcustomers"><IoPersonCircleSharp />{isOpen && <span>Customer</span>} </Link></li> */}
          <li>
-  <Link to="/invoice">
-    <FaFileInvoice />
-    {isOpen && (
-      <span style={{ fontWeight: "600", marginLeft: "6px" }}>
-        Last Bill Number: {lastInvoiceNumber ?? "Loading..."}
-      </span>
-    )}
-  </Link>
+  
 </li>
 
         {/* <li><Link to="/allbills"><FaEye /> {isOpen && <span>All Bills</span>}</Link></li>

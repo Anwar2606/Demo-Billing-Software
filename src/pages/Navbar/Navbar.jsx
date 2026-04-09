@@ -82,7 +82,7 @@ const Navbar = () => {
           <Link to="/products" className="navbar-link">Products</Link>
         </li>
          <li>
-          <Link 
+          {/* <Link 
   to="/invoice" 
   style={{ textDecoration: "none", display: "flex", alignItems: "center" }}
 >
@@ -95,7 +95,7 @@ const Navbar = () => {
   >
     Last Bill Number: {lastInvoiceNumber ?? "Loading..."}
   </span>
-</Link>
+</Link> */}
 
         </li>
       </ul>

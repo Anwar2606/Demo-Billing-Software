@@ -39,6 +39,11 @@ import WayBillCopy from './pages/Way bill copy/WayBillCopy';
 import WayBillEditBillPage from './pages/Edit Waybill/EditWayBill';
 import EditCustomer from './pages/Edit Customer/EditCustomer';
 import MyBarChart from './pages/My Chart/Mychart';
+import SalaryManagement from './pages/Salary/SalaryCalculation';
+import AddEmployee from './pages/Salary Add Employee/SalaryAddEmployee';
+import SalaryData from './pages/Salary Management/SalaryData';
+import ProjectReport from './pages/Project Report/ProjectReport';
+
 
 
 
@@ -97,7 +102,11 @@ const isBillingPage = location.pathname === '/invoicebill' || location.pathname 
           <Route path="/pdf" element={<MergePDFs />} />
           <Route path="/showtransport" element={<ShowTransportDetails />} />
           <Route path="/invoiceeditbill" element={<InvoiceEditBillPage/>} />
+         <Route path="/salarymanagement" element={<SalaryData/>} />
           <Route path="/retaileditbill" element={<RetailEditBillPage/>} />
+          <Route path="/salarycalculation" element={<SalaryManagement/>} />
+           <Route path="/addemployee" element={<AddEmployee/>} />
+            <Route path="/projectreport" element={<ProjectReport/>} />
           <Route path="/waybilleditbill" element={<WayBillEditBillPage/>} />
           <Route path="/wholesaleeditbill" element={<WholesaleEditBillPage/>} />
           <Route path="/retailcopy" element={<RetailCopy />} />
