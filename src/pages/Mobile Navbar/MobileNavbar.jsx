@@ -95,10 +95,14 @@ const MobileNavbar = () => {
                     Add Employee
                   </Link>
                 </li>
-
+<li>
+                  <Link to="/salarycalculation" onClick={() => setIsOpen(false)}>
+                    Add Salary
+                  </Link>
+                </li>
                 <li>
                   <Link to="/salarymanagement" onClick={() => setIsOpen(false)}>
-                    Salary Calculator
+                    Salary Report
                   </Link>
                 </li>
 

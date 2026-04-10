@@ -236,51 +236,62 @@ const styles = {
   heading: {
     marginBottom: "25px",
     textAlign: "center",
-    fontSize: "26px",
+    fontSize: "28px",
     fontWeight: "700",
+    color: "#1e293b",
   },
 
   card: (isMobile) => ({
-    width: "98%",
-    padding: isMobile ? "20px" : "30px",
-    borderRadius: "14px",
-    background: "#fff",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
-    position:"relative",
-    right:"10px"
+    width: "90%",
+    padding: isMobile ? "20px" : "35px",
+    borderRadius: "16px",
+    background: "#ffffff",
+    boxShadow: "0 8px 25px rgba(0,0,0,0.08)",
+    border: "1px solid #e2e8f0",
   }),
 
-  label: {
-    marginTop: "14px",
-    fontSize: "15px",
-    fontWeight: "600",
-  },
+label: {
+  display: "block",          // ✅ important
+  marginTop: "18px",         // space above label
+  marginBottom: "6px",       // space between label & input
+  fontSize: "14px",
+  fontWeight: "600",
+  color: "#334155",
+},
 
-  input: {
-    width: "100%",
-    padding: "12px",
-    marginTop: "8px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-  },
+input: {
+  width: "100%",
+  padding: "12px 14px",
+  marginTop: "0px",          // ❌ remove extra gap
+  borderRadius: "10px",
+  border: "1px solid #cbd5e1",
+  fontSize: "14px",
+  outline: "none",
+  transition: "0.2s",
+},
 
   totalBox: {
-    marginTop: "20px",
-    padding: "14px",
-    borderRadius: "10px",
-    background: "#eef3ff",
+    marginTop: "22px",
+    padding: "16px",
+    borderRadius: "12px",
+    background: "linear-gradient(135deg, #e0f2fe, #dbeafe)",
     textAlign: "center",
     fontWeight: "700",
+    fontSize: "16px",
+    color: "#1e40af",
   },
 
   saveBtn: {
     marginTop: "25px",
     padding: "14px",
     width: "100%",
-    background: "linear-gradient(135deg, #007bff, #0056d2)",
+    background: "linear-gradient(135deg, #22c55e, #16a34a)",
     color: "#fff",
     border: "none",
-    borderRadius: "8px",
+    borderRadius: "10px",
     cursor: "pointer",
+    fontSize: "15px",
+    fontWeight: "600",
+    transition: "0.3s",
   },
 };

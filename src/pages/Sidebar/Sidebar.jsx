@@ -121,12 +121,17 @@ const toggleProjectMenu = () => {
         <IoIosPerson /> Add Employee
       </Link>
     </li>
-
-    <li>
-      <Link to="/salarymanagement">
+<li>
+      <Link to="/salarycalculation">
         <LiaMoneyBillWaveAltSolid /> Salary Calculator
       </Link>
     </li>
+    <li>
+      <Link to="/salarymanagement">
+        <LiaMoneyBillWaveAltSolid /> Salary Report
+      </Link>
+    </li>
+    
 
     <li>
       <Link to="/projectreport">
