@@ -7,7 +7,7 @@ import { AiFillProduct } from "react-icons/ai";
 import { IoIosPerson } from "react-icons/io";
 import { TbListNumbers } from "react-icons/tb";
 import { MdLogout } from "react-icons/md";
-import Logo from "../assets/vibha-logo.png"; 
+
 import './AddTransportDetails.css';
 import Sidebar from "../Sidebar/Sidebar";
 const AddTransportDetails = () => {
@@ -49,33 +49,33 @@ const AddTransportDetails = () => {
       <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
       {/* Main Content */}
       <div className="content">
-      <div className="container">
-        <h2 className="heading">Add Transport Details</h2>
-        <form onSubmit={handleSubmit} className="form">
-          <input
-            type="text"
-            name="transportName"
-            placeholder="Transport Name"
-            value={transportData.transportName}
-            onChange={handleChange}
-            className="input"
-            required
-          />
-          <input
-            type="text"
-            name="transportGstin"
-            placeholder="Transport GSTIN"
-            value={transportData.transportGstin}
-            onChange={handleChange}
-            className="input"
-            required
-          />
-          <button type="submit" className="button">
-            Add Transport Details
-          </button>
-        </form>
+        <div className="container">
+          <h2 className="heading">Add Transport Details</h2>
+          <form onSubmit={handleSubmit} className="form">
+            <input
+              type="text"
+              name="transportName"
+              placeholder="Transport Name"
+              value={transportData.transportName}
+              onChange={handleChange}
+              className="input"
+              required
+            />
+            <input
+              type="text"
+              name="transportGstin"
+              placeholder="Transport GSTIN"
+              value={transportData.transportGstin}
+              onChange={handleChange}
+              className="input"
+              required
+            />
+            <button type="submit" className="button">
+              Add Transport Details
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

@@ -7,7 +7,6 @@ import { AiFillProduct } from "react-icons/ai";
 import { IoIosPerson } from "react-icons/io";
 import { TbListNumbers } from "react-icons/tb";
 import { MdLogout } from "react-icons/md";
-import Logo from "../assets/vibha-logo.png"; 
 import Sidebar from "../Sidebar/Sidebar";
 
 const ShowTransportDetails = () => {

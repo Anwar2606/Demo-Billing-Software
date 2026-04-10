@@ -11,7 +11,7 @@ import {
 import { AiFillProduct } from "react-icons/ai";
 import { MdLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
-import Logo from "../assets/vibha-logo.png";
+
 import "./BulkUpload.css";
 import { TbListNumbers } from "react-icons/tb";
 import { IoIosPerson } from "react-icons/io";
@@ -176,49 +176,49 @@ const BulkUpload = () => {
   };
 
   return (
-   <div className="main-container">
-  <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
+    <div className="main-container">
+      <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
 
-  <div className="mybulkuploadfiles">
-    <div className="mybulkupload-box">
-    <MobileNavbar/>
-      <h1 className="header">Bulk Upload Products</h1>
+      <div className="mybulkuploadfiles">
+        <div className="mybulkupload-box">
+          <MobileNavbar />
+          <h1 className="header">Bulk Upload Products</h1>
 
-      <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
 
-        <div
-          className={`file-drop-zone ${dragging ? "dragging" : ""}`}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-        >
-          <label htmlFor="fileUpload" className="file-label">
-            Drag and drop a file here, or click to select a file
-          </label>
-          <input
-            id="fileUpload"
-            type="file"
-            accept=".csv, .xlsx, .xls"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-          />
+            <div
+              className={`file-drop-zone ${dragging ? "dragging" : ""}`}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
+              <label htmlFor="fileUpload" className="file-label">
+                Drag and drop a file here, or click to select a file
+              </label>
+              <input
+                id="fileUpload"
+                type="file"
+                accept=".csv, .xlsx, .xls"
+                onChange={handleFileChange}
+                style={{ display: "none" }}
+              />
 
-          {fileName && <p className="file-name">{fileName}</p>}
+              {fileName && <p className="file-name">{fileName}</p>}
+            </div>
+
+            <div className="buttons">
+              <button className="btn" type="button" onClick={handleFileUpload}>
+                Upload File
+              </button>
+              <button className="btn" type="submit">
+                Submit
+              </button>
+            </div>
+
+          </form>
         </div>
-
-        <div className="buttons">
-          <button className="btn" type="button" onClick={handleFileUpload}>
-            Upload File 
-          </button>
-          <button className="btn" type="submit">
-            Submit 
-          </button>
-        </div>
-
-      </form>
+      </div>
     </div>
-  </div>
-</div>
 
   );
 };

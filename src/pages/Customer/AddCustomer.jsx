@@ -6,7 +6,7 @@ import { FaHome, FaEye, FaEdit, FaFileInvoice, FaArrowCircleLeft, FaArrowAltCirc
 import { AiFillProduct } from "react-icons/ai";
 import { TbListNumbers } from "react-icons/tb";
 import { MdLogout } from "react-icons/md";
-import Logo from "../assets/vibha-logo.png"; // Adjust the path as per your project
+// Adjust the path as per your project
 import { IoIosPerson } from "react-icons/io";
 import Sidebar from "../Sidebar/Sidebar";
 import './AddCustomer.css';
@@ -54,76 +54,76 @@ const AddCustomer = () => {
   };
 
   return (
-  <div className="customer-main">
-   
-    <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
+    <div className="customer-main">
 
-    <div className="customer-content">
-      
-      <div className="customer-card">
-        <MobileNavbar/>
-        <h2 className="customer-title">Add Customer</h2>
+      <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
 
-        <form onSubmit={handleSubmit} className="customer-form">
-          <label className="customer-label">
-            Customer Name
-            <input
-              type="text"
-              name="customerName"
-              value={customerDetails.customerName}
-              onChange={handleChange}
-              className="customer-input"
-              required
-            />
-          </label>
+      <div className="customer-content">
 
-          <label className="customer-label">
-            Address
-            <input
-              type="text"
-              name="customerAddress"
-              value={customerDetails.customerAddress}
-              onChange={handleChange}
-              className="customer-input"
-              required
-            />
-          </label>
+        <div className="customer-card">
+          <MobileNavbar />
+          <h2 className="customer-title">Add Customer</h2>
 
-          <label className="customer-label">
-            Phone Number
-            <input
-              type="text"
-              name="customerPhoneNo"
-              value={customerDetails.customerPhoneNo}
-              onChange={handleChange}
-              className="customer-input"
-              required
-            />
-          </label>
+          <form onSubmit={handleSubmit} className="customer-form">
+            <label className="customer-label">
+              Customer Name
+              <input
+                type="text"
+                name="customerName"
+                value={customerDetails.customerName}
+                onChange={handleChange}
+                className="customer-input"
+                required
+              />
+            </label>
 
-          <div className="customer-btn-group">
-            <button type="submit" className="customer-btn save">
-              Add Customer
-            </button>
-            <button
-              type="button"
-              className="customer-btn cancel"
-              onClick={() =>
-                setCustomerDetails({
-                  customerName: "",
-                  customerAddress: "",
-                  customerPhoneNo: "",
-                })
-              }
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+            <label className="customer-label">
+              Address
+              <input
+                type="text"
+                name="customerAddress"
+                value={customerDetails.customerAddress}
+                onChange={handleChange}
+                className="customer-input"
+                required
+              />
+            </label>
+
+            <label className="customer-label">
+              Phone Number
+              <input
+                type="text"
+                name="customerPhoneNo"
+                value={customerDetails.customerPhoneNo}
+                onChange={handleChange}
+                className="customer-input"
+                required
+              />
+            </label>
+
+            <div className="customer-btn-group">
+              <button type="submit" className="customer-btn save">
+                Add Customer
+              </button>
+              <button
+                type="button"
+                className="customer-btn cancel"
+                onClick={() =>
+                  setCustomerDetails({
+                    customerName: "",
+                    customerAddress: "",
+                    customerPhoneNo: "",
+                  })
+                }
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
 
 };
 
