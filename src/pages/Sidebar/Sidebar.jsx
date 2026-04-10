@@ -175,7 +175,7 @@ const toggleProjectMenu = () => {
          <li><Link to="/invoicebill"><HiOutlineDocumentText />{isOpen &&<span>Invoice</span>}</Link></li>
         <li><Link to="/waybill"><HiOutlineDocumentCheck />{isOpen &&<span>Way Bill</span>}</Link></li>
         <li><Link to="/showcustomers"><IoIosPerson /> {isOpen && <span>Customers</span>}</Link></li> */}
-        <li><Link to="/invoice"><TbListNumbers />{isOpen && <span>Bill Numbers</span>}</Link></li>
+        {/* <li><Link to="/invoice"><TbListNumbers />{isOpen && <span>Bill Numbers</span>}</Link></li> */}
         <li><Link to="/"><MdLogout /> {isOpen && <span>Logout</span>}</Link></li>
         <li className="menu-item">
           <button onClick={toggleSidebar} style={{ padding: '10px', backgroundColor: '#1b2594', border: 'none', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', cursor: 'pointer' }}>

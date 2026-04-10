@@ -12,75 +12,36 @@ import {
 import logo from "../assets/ar.png";
 import watermark from "../assets/ar.png";
 
-// ---------------- FONT REGISTER ----------------
+// FONT
 Font.register({
   family: "English",
   src: "/fonts/Roboto-Regular.ttf",
 });
-
 Font.register({
   family: "EnglishBold",
   src: "/fonts/Roboto-Bold.ttf",
   fontWeight: "bold",
 });
 
-// ---------------- NUMBER TO WORDS ----------------
+// NUMBER TO WORDS
 function numberToWords(num) {
   if (!Number.isFinite(num)) return "";
-  num = Math.floor(num);
-
-  const ones = ["Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine"];
-  const teens = ["Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen",
-                 "Sixteen","Seventeen","Eighteen","Nineteen"];
+  const ones = ["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine"];
   const tens = ["","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"];
-
-  if (num === 0) return "Zero";
-
-  function convertHundreds(n) {
-    let out = "";
-    if (n > 99) {
-      out += ones[Math.floor(n / 100)] + " Hundred ";
-      n = n % 100;
-    }
-    if (n >= 20) {
-      out += tens[Math.floor(n / 10)] + " ";
-      n = n % 10;
-    }
-    if (n >= 10 && n <= 19) {
-      return out + teens[n - 10];
-    }
-    if (n > 0) out += ones[n];
-    return out.trim();
-  }
-
-  let word = "";
-  const thousandNames = ["", "Thousand", "Million", "Billion"];
-  let counter = 0;
-
-  while (num > 0) {
-    const chunk = num % 1000;
-    if (chunk > 0) {
-      word = `${convertHundreds(chunk)} ${thousandNames[counter]} ${word}`;
-    }
-    num = Math.floor(num / 1000);
-    counter++;
-  }
-
-  return word.trim();
+  if (num < 10) return ones[num];
+  if (num < 20) return ["Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"][num-10];
+  if (num < 100) return tens[Math.floor(num/10)] + " " + ones[num%10];
+  if (num < 1000) return ones[Math.floor(num/100)] + " Hundred " + numberToWords(num%100);
+  return num;
 }
 
-// ---------------- STYLES ----------------
+// STYLES
 const styles = StyleSheet.create({
-  page: {
-    padding: 10,
-    fontSize: 10,
-    fontFamily: "English",
-  },
+  page: { padding: 14, fontSize: 10, fontFamily: "English" },
 
   outerBox: {
     border: "1pt solid #000",
-    minHeight: "98%",
-    padding: 8,
+    padding: 12,
     position: "relative",
   },
 
@@ -88,7 +49,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 260,
     height: 160,
-    opacity: 0.06,
+    opacity: 0.05,
     left: "50%",
     marginLeft: -130,
     top: "50%",
@@ -98,241 +59,153 @@ const styles = StyleSheet.create({
   // HEADER
   header: {
     flexDirection: "row",
-    borderBottom: "1pt solid #000",
-    paddingBottom: 6,
+    borderBottom: "2pt solid #000",
+    paddingBottom: 10,
+    alignItems: "center",
   },
 
   headerLeft: { width: "20%" },
   headerCenter: { width: "50%", textAlign: "center" },
-  headerRight: { width: "30%", textAlign: "right" },
+  headerRight: {
+    width: "30%",
+    textAlign: "right",
+    lineHeight: 1.6,
+  },
 
-  logo: { width: 80, height: 65 },
+  logo: { width: 70, height: 55 },
 
   shopTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: "EnglishBold",
-    color: "#0089cd",
+    color: "#0a7db5",
   },
 
-  address: {
-    fontSize: 9,
-    marginTop: 3,
-  },
+  address: { fontSize: 9, marginTop: 3 },
 
-  phoneNo: {
+  invoiceTitle: {
+    fontSize: 12,
     fontFamily: "EnglishBold",
-    fontSize: 10,
+    marginTop: 5,
   },
 
-  billMeta: {
-    marginTop: 4,
+  // CUSTOMER
+  customerBlock: {
+    marginTop: 14,
+    borderBottom: "1pt solid #000",
+    paddingBottom: 10,
+  },
+
+  customerRow: {
+    flexDirection: "row",
+    marginTop: 8,
+  },
+
+  customerCol: {
+    width: "50%",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  label: {
+    width: "30%",
     fontFamily: "EnglishBold",
   },
 
-  fssai: {
-    fontSize: 8,
-    marginTop: 3,
-  },
-
-  // CUSTOMER BLOCK
-customerBlock: {
-  marginTop: 12,
-  borderBottom: "1pt solid #000",
-  paddingBottom: 12,
-  paddingHorizontal: 6,   // ⭐ adds left/right air
-},
-customerGridRow: {
-  flexDirection: "row",
-  marginTop: 8,           // ⭐ better row spacing
-},
-customerCol: {
-  width: "50%",
-  flexDirection: "row",
-  paddingRight: 10,       // ⭐ space between columns
-},
-
-label: {
-  width: "38%",           // ⭐ slightly tighter label
-  fontFamily: "EnglishBold",
-  fontSize: 10,
-},
-
-value: {
-  width: "62%",
-  borderBottom: "0.8pt solid #000",
-  paddingLeft: 6,         // ⭐ nicer text offset
-  paddingBottom: 2,       // ⭐ avoids touching line
-//   fontFamily: "EnglishBold",
-},
-
-  valueLine: {
+  value: {
     width: "70%",
-    borderBottom: "0.8pt solid #000",
-    paddingLeft: 4,
-    fontFamily: "EnglishBold",
+    borderBottom: "1pt solid #000",
+    marginLeft: 5,
   },
 
   // TABLE
   tableBox: {
-    marginTop: 10,
+    marginTop: 12,
     border: "1pt solid #000",
   },
 
   tableHeader: {
     flexDirection: "row",
-    backgroundColor: "#e6eef9",
-    borderBottom: "1pt solid #000",
+    backgroundColor: "#0a7db5",
+    color: "#fff",
     fontFamily: "EnglishBold",
   },
 
   th: {
-    padding: 6,
-    borderRight: "1pt solid #000",
+    padding: 8,
     textAlign: "center",
-    fontFamily: "EnglishBold",
   },
 
   tr: {
     flexDirection: "row",
-    borderBottom: "1pt solid #000",
+    borderBottom: "0.5pt solid #ccc",
   },
 
   td: {
-    padding: 6,
-    borderRight: "1pt solid #000",
+    padding: 8,
+  },
+
+  // TOTAL
+  totalsBox: {
+    marginTop: 14,
+    width: "30%",
+    alignSelf: "flex-end",
+  },
+
+  totalLine: {
+    borderTop: "2pt solid #000",
+    marginBottom: 6,
+  },
+
+  totalRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    fontFamily: "EnglishBold",
+    fontSize: 12,
   },
 
   words: {
-    marginTop: 8,
+    marginTop: 10,
     fontFamily: "EnglishBold",
   },
 
   termsBox: {
-    border: "1pt solid #000",
-    marginTop: 12,
+    border: "1pt solid #ddd",
+    marginTop: 14,
     padding: 10,
   },
-termsText: {
-  lineHeight: 2,   // ⭐ adjust spacing here
-  marginTop: 2,     // optional, improves breathing
-},
+
   signature: {
-    marginTop: 10,
+    marginTop: 20,
     textAlign: "right",
     fontFamily: "EnglishBold",
   },
 
   thankText: {
-    marginTop: 8,
-    fontFamily: "EnglishBold",
-    fontSize: 9,
+    marginTop: 12,
     textAlign: "center",
+    color: "#0a7db5",
+    fontFamily: "EnglishBold",
   },
-  totalsBox: {
-  marginTop: 14,          // ⭐ proper gap from table
-  width: "48%",           // ⭐ slightly wider = premium look
-  alignSelf: "flex-end",
-},
-
-totalsRow: {
-  flexDirection: "row",
-  justifyContent: "space-between",
-  marginTop: 6,           // ⭐ clean vertical rhythm
-  paddingBottom: 2,
-  fontSize: 10,
-},
-
-totalsLabel: {
-  fontFamily: "EnglishBold",
-},
-
-totalsValue: {
-  fontFamily: "EnglishBold",
-},
-invoiceTitle: {
-  fontSize: 12,
-  fontFamily: "EnglishBold",
-  marginTop: 2,
-},
-grandTotalRow: {
-  flexDirection: "row",
-  justifyContent: "space-between",
-  marginTop: 10,
-  paddingTop: 6,
-  borderTop: "1.2pt solid #000",  // ⭐ stronger separation
-  fontSize: 12,                   // ⭐ emphasis
-  fontFamily: "EnglishBold",
-},
-bankBox: {
-  marginTop: 18,
-  border: "1pt solid #000",
-  padding: 10,
-},
-
-bankTitle: {
-  fontFamily: "EnglishBold",
-  fontSize: 11,
-  marginBottom: 6,
-},
-
-bankRow: {
-  flexDirection: "row",
-  marginTop: 4,
-},
-
-bankLabel: {
-  width: "35%",
-  fontFamily: "EnglishBold",
-  fontSize: 10,
-},
-
-bankValue: {
-  width: "65%",
-  fontSize: 10,
-},
 });
-const formatDate = (date) => {
-  if (!date) return "N/A";
 
-  const day = String(date.getDate()).padStart(2, "0");
+// DATE
+const formatDate = (date) =>
+  date ? new Date(date).toLocaleDateString("en-GB") : "";
 
-  const months = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
-
-  const month = months[date.getMonth()];
-  const year = date.getFullYear();
-
-  return `${day}-${month}-${year}`;
-};
-// ---------------- PDF ----------------
+// PDF
 const TamilPDF = ({
   invoiceNumber = 1,
   cart = [],
-  billingDetails = { grandTotal: 0 },
-
   customerName = "",
   customerPhoneNo = "",
   customerAddress = "",
-  customerState = "",
-  customerGSTIN = "",
   customerEmail = "",
-
-  bankName = "Demo Bank",
-  accountName = "Sample Persone",
-  accountNumber = "123456789",
-  ifscCode = "DEMO1234",
-  upiId = "Sample",
-
   billDate,
-  fssaiNo = "1234567890",
-}) => {  const computedTotal = cart.reduce(
+}) => {
+  const total = cart.reduce(
     (sum, item) => sum + item.saleprice * item.quantity,
     0
   );
-
-  const total = billingDetails.grandTotal || computedTotal;
 
   return (
     <Document>
@@ -344,187 +217,96 @@ const TamilPDF = ({
           <View style={styles.header}>
             <View style={styles.headerLeft}>
               <Image src={logo} style={styles.logo} />
-              <Text style={styles.fssai}>GSTIN : {fssaiNo}</Text>
             </View>
 
             <View style={styles.headerCenter}>
-  <Text style={styles.shopTitle}>
-    SAMPLE SHOP
-  </Text>
-
- 
-
-  <Text style={styles.address}>
-    Sample Area , Sample Road,
-    Sample Street, Tamil Nadu - 636123
-     <Text style={styles.invoiceTitle}>
-    {"\n"}{"\n"}TAX INVOICE
-  </Text>
-  </Text>
-</View>
+              <Text style={styles.shopTitle}>SAMPLE SHOP</Text>
+              <Text style={styles.address}>Sample Address, Tamil Nadu</Text>
+              <Text style={styles.invoiceTitle}>TAX INVOICE</Text>
+            </View>
 
             <View style={styles.headerRight}>
-             <Text style={styles.phoneNo}>Phone Number: 1234567890</Text>
-              <Text style={styles.billMeta}>
-                Tax Invoice Number: {String(invoiceNumber).padStart(3, "0")}
-              </Text>
-
-              <Text style={styles.billMeta}>
-                Date: {formatDate(billDate)}  
-              </Text>
+              <Text>Phone: 1234567890</Text>
+              <Text>Invoice: {String(invoiceNumber).padStart(3, "0")}</Text>
+              <Text>Date: {formatDate(billDate)}</Text>
             </View>
           </View>
 
           {/* CUSTOMER */}
-        <View style={styles.customerBlock}>
+          <View style={styles.customerBlock}>
+            <View style={styles.customerRow}>
+              <View style={styles.customerCol}>
+                <Text style={styles.label}>Name:</Text>
+                <Text style={styles.value}>{customerName}</Text>
+              </View>
 
-  {/* ROW 1 */}
-  <View style={styles.customerGridRow}>
-    <View style={styles.customerCol}>
-      <Text style={styles.label}>Customer Name:</Text>
-      <Text style={styles.value}>{customerName || "N/A"}</Text>
-    </View>
+              <View style={styles.customerCol}>
+                <Text style={styles.label}>Phone:</Text>
+                <Text style={styles.value}>{customerPhoneNo}</Text>
+              </View>
+            </View>
 
-    <View style={styles.customerCol}>
-      <Text style={styles.label}>Phone Number:</Text>
-      <Text style={styles.value}>{customerPhoneNo || "N/A"}</Text>
-    </View>
-  </View>
+            <View style={styles.customerRow}>
+              <View style={styles.customerCol}>
+                <Text style={styles.label}>Address:</Text>
+                <Text style={styles.value}>{customerAddress}</Text>
+              </View>
 
-  {/* ROW 2 */}
-  <View style={styles.customerGridRow}>
-    <View style={styles.customerCol}>
-      <Text style={styles.label}>Address:</Text>
-      <Text style={styles.value}>{customerAddress || "N/A"}</Text>
-    </View>
-
-    <View style={styles.customerCol}>
-      <Text style={styles.label}>Email:</Text>
-      <Text style={styles.value}>{customerEmail || "N/A"}</Text>
-    </View>
-  </View>
-
-  {/* ROW 3 */}
-  <View style={styles.customerGridRow}>
-    <View style={styles.customerCol}>
-      <Text style={styles.label}>State:</Text>
-      <Text style={styles.value}>{customerState || "N/A"}</Text>
-    </View>
-
-    <View style={styles.customerCol}>
-      <Text style={styles.label}>GSTIN:</Text>
-      <Text style={styles.value}>{customerGSTIN || "N/A"}</Text>
-    </View>
-  </View>
-
-</View>
-          {/* TABLE */}
-          <View style={styles.tableBox}>
-  <View style={styles.tableHeader}>
-    <Text style={[styles.th, { width: "8%" }]}>S.No</Text>
-    <Text style={[styles.th, { width: "37%" }]}>Item</Text>
-    {/* <Text style={[styles.th, { width: "15%" }]}>HSN Code</Text> */}
-    <Text style={[styles.th, { width: "13%" }]}>Qty</Text>
-    <Text style={[styles.th, { width: "13%" }]}>Rate</Text>
-    <Text style={[styles.th, { width: "24%", borderRight: 0 }]}>
-      Taxable Amount
-    </Text>
-  </View>{cart.map((item, i) => (
-  <View key={i} style={styles.tr}>
-    <Text style={[styles.td, { width: "8%" }]}>{i + 1}</Text>
-
-    <Text style={[styles.td, { width: "37%" }]}>
-      {item.name}
-    </Text>
-
-    {/* <Text style={[styles.td, { width: "15%" }]}>
-      1234
-    </Text> */}
-
-    <Text style={[styles.td, { width: "13%" }]}>
-      {item.quantity}
-    </Text>
-
-    <Text style={[styles.td, { width: "13%" }]}>
-      Rs. {item.saleprice}
-    </Text>
-
-    <Text style={[styles.td, { width: "14%", borderRight: 0 }]}>
-      Rs. {(item.quantity * item.saleprice).toFixed(2)}
-    </Text>
-  </View>
-))}
-
-       <View style={styles.totalsBox}>
-
-  {/* <View style={styles.totalsRow}>
-    <Text style={styles.totalsLabel}>Subtotal</Text>
-    <Text style={styles.totalsValue}>
-      Rs. {billingDetails.discountedTotal?.toFixed(2)}
-    </Text>
-  </View> */}
-
-  {billingDetails.cgstAmount > 0 && (
-    <View style={styles.totalsRow}>
-      <Text style={styles.totalsLabel}>CGST (9%)</Text>
-      <Text style={styles.totalsValue}>
-        Rs. {billingDetails.cgstAmount.toFixed(2)}
-      </Text>
-    </View>
-  )}
-
-  {billingDetails.sgstAmount > 0 && (
-    <View style={styles.totalsRow}>
-      <Text style={styles.totalsLabel}>SGST (9%)</Text>
-      <Text style={styles.totalsValue}>
-        Rs. {billingDetails.sgstAmount.toFixed(2)}
-      </Text>
-    </View>
-  )}
-
-  {billingDetails.igstAmount > 0 && (
-    <View style={styles.totalsRow}>
-      <Text style={styles.totalsLabel}>IGST (18%)</Text>
-      <Text style={styles.totalsValue}>
-        Rs. {billingDetails.igstAmount.toFixed(2)}
-      </Text>
-    </View>
-  )}
-
-  <View style={styles.grandTotalRow}>
-    <Text>Grand Total</Text>
-    <Text>Rs. {total.toFixed(2)}</Text>
-  </View>
-
-</View>
+              <View style={styles.customerCol}>
+                <Text style={styles.label}>Email:</Text>
+                <Text style={styles.value}>{customerEmail}</Text>
+              </View>
+            </View>
           </View>
 
-          {/* WORDS */}
+          {/* TABLE */}
+          <View style={styles.tableBox}>
+            <View style={styles.tableHeader}>
+              <Text style={[styles.th, { width: "8%" }]}>S.No</Text>
+              <Text style={[styles.th, { width: "36%" }]}>Item</Text>
+              <Text style={[styles.th, { width: "12%" }]}>Qty</Text>
+              <Text style={[styles.th, { width: "14%" }]}>Rate</Text>
+              <Text style={[styles.th, { width: "30%" }]}>Amount</Text>
+            </View>
+
+            {cart.map((item, i) => (
+              <View key={i} style={styles.tr}>
+                <Text style={[styles.td, { width: "8%" }]}>{i + 1}</Text>
+                <Text style={[styles.td, { width: "36%" }]}>{item.name}</Text>
+                <Text style={[styles.td, { width: "12%", textAlign: "center" }]}>
+                  {item.quantity}
+                </Text>
+                <Text style={[styles.td, { width: "14%", textAlign: "right" }]}>
+                  Rs. {item.saleprice}
+                </Text>
+                <Text style={[styles.td, { width: "30%", textAlign: "right" }]}>
+                  Rs. {(item.quantity * item.saleprice).toFixed(2)}
+                </Text>
+              </View>
+            ))}
+          </View>
+
+          {/* TOTAL */}
+          <View style={styles.totalsBox}>
+            <View style={styles.totalLine}></View>
+            <View style={styles.totalRow}>
+              <Text>Total</Text>
+              <Text>Rs. {total.toFixed(2)}</Text>
+            </View>
+          </View>
+
           <Text style={styles.words}>
             Amount in Words: {numberToWords(total)} Rupees
           </Text>
+
           {/* TERMS */}
-         <View style={styles.termsBox}>
-  <Text style={{ fontFamily: "EnglishBold", marginBottom: 4 }}>
-    Terms & Conditions
-  </Text>
+          <View style={styles.termsBox}>
+            <Text>1. No return after sale</Text>
+            <Text>2. Payment immediate</Text>
+            <Text style={styles.signature}>Signature</Text>
+          </View>
 
-  <Text style={styles.termsText}>
-    1. Goods once sold cannot be returned or exchanged.
-  </Text>
-
-  <Text style={styles.termsText}>
-    2. Full payment must be made at the time of purchase.
-  </Text>
-
-  <Text style={styles.signature}>
-    Authorised Signature
-  </Text>
-</View>
-
-          <Text style={styles.thankText}>
-            Thank you for your business
-          </Text>
+         
         </View>
       </Page>
     </Document>
