@@ -5,7 +5,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 // import './BillingCalculator.css'; // Import the CSS file
 import Navbar from '../Navbar/Navbar';
-import MyLogo from '../assets/Sample.png';
+import MyLogo from '../assets/ar.png';
 
 const WholesaleBill = () => {
   const [searchTermForTransport, setSearchTermForTransport] = useState("");

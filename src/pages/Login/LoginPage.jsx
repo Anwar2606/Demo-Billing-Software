@@ -5,7 +5,7 @@ import { auth } from '../firebase';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './LoginPage.css';
-import Logo from '../assets/Sample.png';
+import Logo from '../assets/ar.png';
 
 const Login = () => {
     const [email, setEmail] = useState('');

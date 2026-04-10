@@ -15,7 +15,7 @@ import { MdLogout } from 'react-icons/md';
 import { TbListNumbers } from 'react-icons/tb';
 import { IoIosPerson } from 'react-icons/io';
 import Sidebar from '../Sidebar/Sidebar';
-import MyLogo from '../assets/Sample.png';
+import MyLogo from '../assets/ar.png';
 
 const WholesaleCopy = (bill) => {
   const [bills, setBills] = useState([]);

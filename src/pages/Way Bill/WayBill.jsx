@@ -5,7 +5,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 // import './BillingCalculator.css'; // Import the CSS file
 import Navbar from '../Navbar/Navbar';
-import MyLogo from '../assets/Sample.png';
+import MyLogo from '../assets/ar.png';
 
 const WayBill = () => {
   const [searchTermForTransport, setSearchTermForTransport] = useState("");

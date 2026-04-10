@@ -7,7 +7,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import TamilPDF from "./TamilPDF";
 import './BillingCalculator.css'; // Import the CSS file
 import Navbar from '../Navbar/Navbar';
-import MyLogo from '../assets/Sample.png';
+import MyLogo from '../assets/ar.png';
 
 
 const BillingCalculator = () => {
@@ -28,9 +28,8 @@ const BillingCalculator = () => {
   const [cart, setCart] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [category, setCategory] = useState('');
+ 
   let invoiceNumber = ''; 
-  const [projects, setProjects] = useState([]);
-const [selectedProject, setSelectedProject] = useState("");
   const [billingDetails, setBillingDetails] = useState({
     totalAmount: 0,
     discountPercentage: '',
@@ -55,49 +54,34 @@ const [selectedProject, setSelectedProject] = useState("");
   const [searchTerm2, setSearchTerm2] = useState('');
   const [taxOption, setTaxOption] = useState('cgst_sgst');
   const [currentDate, setCurrentDate] = useState(new Date()); // State for current date
+  const [projects, setProjects] = useState([]);
+const [selectedProject, setSelectedProject] = useState("");
   const [showCustomerDetails, setShowCustomerDetails] = useState(false); // State for toggling customer details
   const handleInvoiceNumberChange = (event) => {
     setManualInvoiceNumber(event.target.value);
   };
+
+
+
 useEffect(() => {
   const fetchProducts = async () => {
+    const productsCollectionRef = collection(db, 'products');
+
     try {
-      let productsRef = collection(db, "products");
-
-      // 🔥 If search exists → query from Firestore directly
-      if (searchTerm) {
-        const q = query(
-          productsRef,
-          where("name", ">=", searchTerm),
-          where("name", "<=", searchTerm + "\uf8ff")
-        );
-
-        const snapshot = await getDocs(q);
-
-        const data = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-
-        setFilteredProducts(data);
-      } else {
-        // 🔥 Load limited products initially (faster)
-        const snapshot = await getDocs(productsRef);
-
-        const data = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-
-        setFilteredProducts(data);
-      }
+      const querySnapshot = await getDocs(productsCollectionRef);
+      const fetchedProducts = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setProducts(fetchedProducts);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error('Error fetching products: ', error);
     }
   };
 
   fetchProducts();
-}, [searchTerm]);
+}, []);
+
 
 useEffect(() => {
   const fetchProjects = async () => {
@@ -418,7 +402,233 @@ try {
 };
 
 
+const generatePDFPage = (doc, copyType, invoiceNumber, logoBase64) => {
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const borderMargin = 10;
 
+  const drawPageBorder = () => {
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(0.2);
+    doc.rect(borderMargin, borderMargin, pageWidth - 2 * borderMargin, pageHeight - 2 * borderMargin);
+  };
+
+  drawPageBorder();
+
+  const headerStartY = 14;
+const lineSpacing = 6;
+const startX = 18;
+
+const formattedDate = selectedDate.toLocaleDateString('en-GB');
+
+// Add Logo
+doc.addImage(logoBase64, 'JPEG', startX, headerStartY + 1, 27, 29); // Increased from 22x22 to 30x30
+
+
+// Set font and color
+doc.setFont('helvetica', 'bold');
+doc.setFontSize(8.5);
+doc.setTextColor(255, 0, 0);
+doc.text('ANNAKSHI A TRADITIONAL RICE STORE', startX + 30, headerStartY + 5);
+
+// Address
+
+doc.setTextColor(0, 0, 0);
+doc.setFontSize(9);
+doc.setFont('helvetica', 'bold');
+doc.text('110,Javuli Kadai Street.', startX + 30, headerStartY + 5 + lineSpacing);
+doc.text('Sivakasi,', startX + 30, headerStartY + 5 + 2 * lineSpacing);
+doc.text('Virudhunagar.', startX + 30, headerStartY + 5 + 3 * lineSpacing);
+doc.text('State: Tamil Nadu', startX + 30, headerStartY + 5 + 4 * lineSpacing);
+
+// Right side Invoice Info
+doc.setFont('helvetica', 'bold');
+doc.setFontSize(8.5);
+doc.setTextColor(255, 0, 0);
+const formattedInvoiceNumber = String(invoiceNumber).padStart(3, '0');
+doc.text(`BILL NUMBER: ${formattedInvoiceNumber}`, 150, headerStartY + 5);
+doc.setTextColor(0, 0, 0);
+ doc.text(`Date: ${formattedDate}`, 150, headerStartY + 5 + lineSpacing);
+doc.setFontSize(9);
+doc.setFont('helvetica', 'bold');
+doc.setFont('helvetica', 'bold');
+
+
+// Draw outer rectangle
+const headerEndY = headerStartY + 5 + 5 * lineSpacing;
+doc.setDrawColor(0, 0, 0);
+doc.setLineWidth(0.2);
+doc.rect(14, headerStartY - 2, 182, headerEndY - headerStartY + 4);
+
+
+  // Start Customer Details table
+let startY = 54;
+
+// Row 1: Name, Address, State
+const row1 = [
+  customerName ? `Name: ${customerName}` : null,
+  customerAddress ? `Address: ${customerAddress}` : null,
+   customerPhoneNo ? `Phone: ${customerPhoneNo}` : null,
+].filter(Boolean).map(item => ({ content: item }));
+
+// Row 2: Phone, GSTIN, PAN
+
+
+// Combine into final table body
+const customerDetails = [];
+
+// ✅ Add 'TO' as the first row
+customerDetails.push([
+  { content: 'TO', styles: { textColor:"#d30466" ,fontStyle: 'bold', fontSize: 15 } },
+  { content: '' }, // 2nd column empty
+  { content: '' }  // 3rd column empty
+]);
+
+
+if (row1.length > 0) customerDetails.push(row1);
+
+
+const customerStartY = startY;
+
+doc.autoTable({
+  body: customerDetails,
+  startY: customerStartY,
+  theme: 'plain',
+  styles: { fontSize: 8 },
+  margin: { left: 15, right: 15 },
+  didParseCell: function (data) {
+    if (data.row.index === 0) {
+      data.cell.styles.fontSize = 11;
+    }
+  }
+});
+
+// Draw surrounding rectangle
+const customerEndY = doc.autoTable.previous.finalY;
+doc.setDrawColor(0);
+doc.setLineWidth(0.1);
+doc.rect(14, customerStartY - 2, 182, customerEndY - customerStartY + 4);
+
+
+  // Start Products Table
+  startY = doc.autoTable.previous.finalY + 3;
+
+  const tableBody = cart.map((item, index) => [
+    index + 1,
+    item.name,
+    
+    item.quantity.toString(),
+    `Rs. ${item.saleprice.toFixed(2)}`,
+    `Rs. ${(item.saleprice * item.quantity).toFixed(2)}`
+  ]);
+
+  tableBody.push(
+    [{ content: 'Total Amount:', colSpan: 4, styles: { halign: 'right', fontStyle: 'bold' } }, `${Math.round(billingDetails.totalAmount)}.00`],
+    // [{ content: `Discount (${billingDetails.discountPercentage}%):`, colSpan: 5, styles: { halign: 'right', fontStyle: 'bold' } }, `${Math.round(billingDetails.totalAmount * (parseFloat(billingDetails.discountPercentage) / 100)).toFixed(2)}`],
+    [{ content: 'Sub Total:', colSpan: 4, styles: { halign: 'right', fontStyle: 'bold' } }, `${Math.round(billingDetails.discountedTotal)}.00`]
+  );
+
+
+
+const totalQuantity = cart.reduce((sum, item) => {
+  const quantity = parseFloat(item.quantity);
+  return sum + (isNaN(quantity) ? 0 : quantity);
+}, 0);
+  tableBody.push(
+    [{ content: 'Grand Total:', colSpan: 4, styles: { halign: 'right', fontStyle: 'bold' } }, `${Math.round(billingDetails.grandTotal)}.00`],
+     [
+
+    { content: 'Total Quantity:', colSpan: 2, styles: { halign: 'right', fontStyle: 'bold' } },
+    `${totalQuantity}`
+  ]
+  );
+
+doc.autoTable({
+  head: [['S.No', 'Product Name', 'Quantity', 'Rate Per Price', 'Total']],
+  body: tableBody,
+  startY,
+  theme: 'grid',
+  headStyles: {
+    fillColor: [255, 182, 193],  // Light pink background
+    textColor: [0, 0, 139],      // Dark blue text
+    lineColor: [0, 0, 0],        // ✅ Black border
+    lineWidth: 0.2               // Optional: thin border
+  },
+  alternateRowStyles: { fillColor: [245, 245, 245] },
+  bodyStyles: {
+    fillColor: [255, 255, 255],
+    textColor: [0, 0, 0],
+    lineColor: [0, 0, 0],
+    lineWidth: 0.2
+  },
+  didDrawPage: drawPageBorder
+});
+
+
+  // Terms & Conditions Box
+  startY = doc.autoTable.previous.finalY + 10;
+  const grandTotalInWords = numberToWords(billingDetails.grandTotal);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.setTextColor(0, 0, 139);
+  doc.text(`Rupees: ${grandTotalInWords}`, borderMargin + 5, startY);
+
+  const terms = [
+   '1.Goods once sold will not be taken back or exchanged.',
+'2.Annakshi is not responsible for improper storage after purchase',
+ '3.All prices are inclusive of packing.',
+ '4.Delivery (if applicable) is subject to availability and delivery charges.',
+
+];
+
+const padding = 10;
+const lineHeight = 7;
+const boxX = borderMargin + 4;
+const boxY = startY + 6;
+const boxWidth = pageWidth - 2 * (borderMargin + 4);
+const boxHeight = 45; // Increased height to fit 3 lines
+
+doc.setDrawColor(0, 0, 0);
+doc.setLineWidth(0.2);
+doc.rect(boxX, boxY, boxWidth, boxHeight);
+
+let currentY = boxY + padding;
+doc.setFont('helvetica', 'bold');
+doc.text('Terms & Conditions', boxX + padding, currentY);
+
+doc.setFont('helvetica', 'normal');
+doc.setTextColor(0, 0, 0);
+
+// Draw all terms dynamically
+terms.forEach(term => {
+  currentY += lineHeight;
+  doc.text(term, boxX + padding, currentY);
+});
+const authSig = 'Authorised Signature';
+const authSigWidth = doc.getTextWidth(authSig);
+const authSigX = boxX + boxWidth - authSigWidth - padding;
+doc.setFont('helvetica', 'bold');
+doc.text(authSig, authSigX, currentY);
+
+};
+const handleGenerateAllCopies = async () => {
+  const invoiceNumber = manualInvoiceNumber.trim();
+  if (!invoiceNumber || cart.length === 0) {
+    alert("Please enter invoice number and cart items.");
+    return;
+  }
+
+  await saveBillingDetails(invoiceNumber);
+  const doc = new jsPDF();
+  const copyTypes = ['CUSTOMER COPY'];
+
+  for (let i = 0; i < copyTypes.length; i++) {
+    if (i > 0) doc.addPage();
+    generatePDFPage(doc, copyTypes[i], invoiceNumber, MyLogo); // <-- pass base64 logo
+  }
+
+  doc.save(`BILL-${invoiceNumber}-25.pdf`);
+};
 const handleSearch = (event) => {
 const term = event.target.value.toLowerCase();
 setSearchTerm(term);

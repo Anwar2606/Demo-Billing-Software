@@ -9,8 +9,8 @@ import {
   Font,
 } from "@react-pdf/renderer";
 
-import logo from "../assets/Sample.png";
-import watermark from "../assets/Sample.png";
+import logo from "../assets/ar.png";
+import watermark from "../assets/ar.png";
 
 // ---------------- FONT REGISTER ----------------
 Font.register({
@@ -349,7 +349,7 @@ const TamilPDF = ({
 
             <View style={styles.headerCenter}>
   <Text style={styles.shopTitle}>
-    SAMPLE CRACKERS
+    SAMPLE SHOP
   </Text>
 
  
@@ -423,10 +423,10 @@ const TamilPDF = ({
   <View style={styles.tableHeader}>
     <Text style={[styles.th, { width: "8%" }]}>S.No</Text>
     <Text style={[styles.th, { width: "37%" }]}>Item</Text>
-    <Text style={[styles.th, { width: "15%" }]}>HSN Code</Text>
+    {/* <Text style={[styles.th, { width: "15%" }]}>HSN Code</Text> */}
     <Text style={[styles.th, { width: "13%" }]}>Qty</Text>
     <Text style={[styles.th, { width: "13%" }]}>Rate</Text>
-    <Text style={[styles.th, { width: "14%", borderRight: 0 }]}>
+    <Text style={[styles.th, { width: "24%", borderRight: 0 }]}>
       Taxable Amount
     </Text>
   </View>{cart.map((item, i) => (
@@ -437,9 +437,9 @@ const TamilPDF = ({
       {item.name}
     </Text>
 
-    <Text style={[styles.td, { width: "15%" }]}>
+    {/* <Text style={[styles.td, { width: "15%" }]}>
       1234
-    </Text>
+    </Text> */}
 
     <Text style={[styles.td, { width: "13%" }]}>
       {item.quantity}

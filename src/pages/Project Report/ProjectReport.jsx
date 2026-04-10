@@ -120,15 +120,16 @@ const ProjectReport = () => {
     doc.text(`Project: ${getProjectName()}`, 14, 25);
     doc.text(`Total Salary: Rs. ${totalSalary}`, 14, 35);
     doc.text(`Total Billing: Rs. ${grandTotal}`, 14, 42);
-    doc.text(`Profit: Rs. ${grandTotal - totalSalary}`, 14, 49);
+    doc.text(`Profit: Rs. ${grandTotal + totalSalary}`, 14, 49);
 
     autoTable(doc, {
       startY: 60,
-      head: [["Employee", "Date", "Count", "Amount"]],
+      head: [["Employee", "Date", "Count","Per Day", "Amount"]],
       body: salaryData.map(item => [
         item.employeeName,
         item.date ? new Date(item.date).toLocaleDateString("en-IN") : "",
         item.count || 0,
+        item.perDaySalary || 0, 
         item.totalSalary
       ])
     });
@@ -259,7 +260,7 @@ const ProjectReport = () => {
           <div style={cardBox}>
             <p>Profit</p>
             <h2 style={{ color: "green" }}>
-              ₹ {(grandTotal - totalSalary).toFixed(2)}
+              ₹ {(grandTotal + totalSalary).toFixed(2)}
             </h2>
           </div>
         </div>
@@ -273,6 +274,7 @@ const ProjectReport = () => {
                 <th style={styles.th}>Employee</th>
                 <th style={styles.th}>Date</th>
                 <th style={styles.th}>Count</th>
+                <th style={styles.th}>Per Day</th> 
                 <th style={styles.th}>Amount</th>
               </tr>
             </thead>
@@ -287,12 +289,13 @@ const ProjectReport = () => {
                         : "N/A"}
                     </td>
                     <td style={styles.td}>{item.count || 0}</td>
+                    <td style={styles.td}>₹ {item.perDaySalary || 0}</td>
                     <td style={styles.td}>₹ {item.totalSalary}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4" style={styles.td}>No Data</td>
+                  <td colSpan="5" style={styles.td}>No Data</td>
                 </tr>
               )}
             </tbody>

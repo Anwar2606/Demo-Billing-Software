@@ -16,7 +16,7 @@ import { MdLogout } from "react-icons/md";
 import { GrDocumentPdf } from "react-icons/gr";
 import { IoDocumentTextOutline, IoPersonCircleSharp } from "react-icons/io5";
 import Logo from "../assets/PCW.png"; // Update path if needed
-import MyLogo from '../assets/Sample.png';
+import MyLogo from '../assets/ar.png';
 import { useEffect } from "react";
 import { db } from "../firebase";
 import { collection, query, orderBy, limit, onSnapshot } from "firebase/firestore";
